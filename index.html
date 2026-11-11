@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Ayang Epan</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Dancing+Script:wght@600;700&family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
+
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .font-cute {
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        .font-handwriting {
+            font-family: 'Sacramento', cursive;
+        }
+
+        .font-mistrully {
+            font-family: 'Mistrully', 'Caveat', 'Dancing Script', 'Sacramento', cursive;
+        }
+
+        /* Animated Watercolor Background */
+        .sky-bg {
+            background: linear-gradient(-45deg, #e0f2fe, #bae6fd, #f0f9ff, #dbeafe);
+            background-size: 400% 400%;
+            animation: gradientSky 15s ease infinite;
+        }
+
+        @keyframes gradientSky {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Paper texture */
+        .paper-texture {
+            background-color: #fcfbf7;
+            background-image: radial-gradient(#e2dfd5 0.75px, transparent 0.75px), radial-gradient(#e2dfd5 0.75px, #fcfbf7 0.75px);
+            background-size: 24px 24px;
+            background-position: 0 0, 12px 12px;
+        }
+
+        /* Envelope Styles */
+        .envelope-wrapper {
+            perspective: 1000px;
+        }
+
+        .envelope-card {
+            position: relative;
+            width: 280px;
+            height: 190px;
+            margin: 0 auto;
+            border-radius: 14px;
+            box-shadow: 0 14px 28px rgba(15, 35, 55, 0.16);
+            background: linear-gradient(135deg, #4d7ca8, #3b6896);
+            overflow: visible;
+            cursor: pointer;
+        }
+
+        @media (min-width: 640px) {
+            .envelope-card {
+                width: 320px;
+                height: 210px;
+            }
+        }
+
+        /* Inner lining pocket cavity */
+        .env-inner-lining {
+            position: absolute;
+            inset: 5px;
+            background: #1e3a5f;
+            border-radius: 10px;
+            box-shadow: inset 0 8px 16px rgba(0,0,0,0.35);
+            overflow: hidden;
+        }
+
+        /* Envelope Flap Top */
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 65%;
+            background: linear-gradient(180deg, #5383b4 0%, #4372a3 100%);
+            clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+            transform-origin: top center;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.6s ease;
+            z-index: 5;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.12));
+        }
+
+        .envelope-card.is-open .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        /* Front Pockets */
+        .pocket-left {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #4877a8, #3b6896);
+            clip-path: polygon(0 0, 0 100%, 52% 55%);
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .pocket-right {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(-135deg, #4e7eb0, #3e6d9b);
+            clip-path: polygon(100% 0, 100% 100%, 48% 55%);
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .pocket-bottom {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(0deg, #366089, #43709d);
+            clip-path: polygon(0 100%, 100% 100%, 50% 44%);
+            z-index: 3;
+            pointer-events: none;
+            filter: drop-shadow(0 -2px 4px rgba(0,0,0,0.08));
+        }
+
+        /* Heart Seal */
+        .heart-seal {
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 32px;
+            height: 32px;
+            background: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            z-index: 6;
+            transition: opacity 0.3s ease;
+        }
+
+        .envelope-card.is-open .heart-seal {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Letter paper inside envelope */
+        .letter-paper {
+            position: absolute;
+            left: 6%;
+            right: 6%;
+            bottom: 12px;
+            height: 88%;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 2;
+            padding: 12px 14px;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+            transform: translateY(70px);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .envelope-card.is-open .letter-paper {
+            transform: translateY(-26px);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .envelope-card.is-open .letter-paper:hover {
+            transform: translateY(-34px);
+        }
+
+        /* Modal backdrop transition */
+        .modal-backdrop {
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        /* Slow spinning animation for Vinyl Record */
+        @keyframes spinSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .animate-spin-slow {
+            animation: spinSlow 12s linear infinite;
+        }
+
+        .animate-spin-slow.paused {
+            animation-play-state: paused;
+        }
+
+        /* Falling Hearts Animation for Page 5 */
+        @keyframes fallDown {
+            0% {
+                transform: translateY(-40px) scale(0.9) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(320px) scale(1) rotate(180deg);
+                opacity: 0;
+            }
+        }
+
+        .animate-fall {
+            animation: fallDown linear infinite;
+        }
+
+        /* Floating Cloud Animations */
+        @keyframes floatCloud {
+            0% {
+                transform: translateX(-220px);
+            }
+            100% {
+                transform: translateX(100vw);
+            }
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.75);
+            border-radius: 100px;
+            filter: blur(1px);
+            animation: floatCloud linear infinite;
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.4);
+        }
+
+        .cloud::before, .cloud::after {
+            content: '';
+            position: absolute;
+            background: rgba(255, 255, 255, 0.75);
+            border-radius: 50%;
+        }
+
+        .cloud-1 {
+            top: 7%;
+            width: 160px;
+            height: 50px;
+            animation-duration: 40s;
+            animation-delay: -5s;
+            opacity: 0.85;
+        }
+        .cloud-1::before { width: 60px; height: 60px; top: -25px; left: 25px; }
+        .cloud-1::after { width: 80px; height: 80px; top: -35px; right: 25px; }
+
+        .cloud-2 {
+            top: 26%;
+            width: 220px;
+            height: 65px;
+            animation-duration: 55s;
+            animation-delay: -24s;
+            opacity: 0.65;
+        }
+        .cloud-2::before { width: 80px; height: 80px; top: -38px; left: 35px; }
+        .cloud-2::after { width: 105px; height: 105px; top: -50px; right: 35px; }
+
+        .cloud-3 {
+            top: 52%;
+            width: 180px;
+            height: 55px;
+            animation-duration: 46s;
+            animation-delay: -14s;
+            opacity: 0.75;
+        }
+        .cloud-3::before { width: 70px; height: 70px; top: -30px; left: 30px; }
+        .cloud-3::after { width: 90px; height: 90px; top: -40px; right: 30px; }
+
+        .cloud-4 {
+            top: 76%;
+            width: 240px;
+            height: 70px;
+            animation-duration: 62s;
+            animation-delay: -40s;
+            opacity: 0.60;
+        }
+        .cloud-4::before { width: 90px; height: 90px; top: -42px; left: 40px; }
+        .cloud-4::after { width: 110px; height: 110px; top: -52px; right: 40px; }
+    </style>
+</head>
+<body class="sky-bg min-h-screen text-slate-800 flex flex-col justify-between overflow-x-hidden selection:bg-sky-200 relative">
+
+    <!-- Floating Background Clouds -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+        <div class="cloud cloud-3"></div>
+        <div class="cloud cloud-4"></div>
+    </div>
+
+    <!-- Header Navigation Bar -->
+    <header class="w-full py-4 px-6 flex justify-between items-center backdrop-blur-xs bg-white/30 border-b border-white/40 sticky top-0 z-40">
+        <div class="flex items-center gap-2">
+            <span class="text-xl">✨</span>
+            <h1 class="font-cute font-bold text-base sm:text-lg text-[#0b2545] tracking-wide">
+                Ayang Epan's Day
+            </h1>
+        </div>
+
+        <!-- Page Indicator Dots -->
+        <div class="flex items-center gap-2 bg-white/50 px-3 py-1.5 rounded-full border border-white/60 shadow-xs">
+            <button onclick="goToPage(1)" id="dot-1" class="w-2.5 h-2.5 rounded-full bg-sky-600 transition-all duration-300"></button>
+            <button onclick="goToPage(2)" id="dot-2" class="w-2.5 h-2.5 rounded-full bg-sky-200 transition-all duration-300"></button>
+            <button onclick="goToPage(3)" id="dot-3" class="w-2.5 h-2.5 rounded-full bg-sky-200 transition-all duration-300"></button>
+            <button onclick="goToPage(4)" id="dot-4" class="w-2.5 h-2.5 rounded-full bg-sky-200 transition-all duration-300"></button>
+            <button onclick="goToPage(5)" id="dot-5" class="w-2.5 h-2.5 rounded-full bg-sky-200 transition-all duration-300"></button>
+            <button onclick="goToPage(6)" id="dot-6" class="w-2.5 h-2.5 rounded-full bg-sky-200 transition-all duration-300"></button>
+        </div>
+    </header>
+
+    <!-- Main Interactive Container -->
+    <main class="flex-1 flex items-center justify-center p-4 sm:p-6 my-auto">
+        
+        <!-- ================= PAGE 1 ================= -->
+        <section id="page-1" class="page-section w-full max-w-md text-center transition-all duration-500 transform scale-100 opacity-100">
+            <div class="backdrop-blur-md bg-white/50 border border-white/70 shadow-2xl shadow-sky-950/10 rounded-3xl p-6 sm:p-8 space-y-6">
+                
+                <!-- Floating Decorative Icon -->
+                <div class="relative inline-block">
+                    <div class="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-tr from-sky-200 to-sky-100 rounded-2xl flex items-center justify-center shadow-inner mx-auto transform -rotate-3 border border-white/80">
+                        <span class="text-4xl sm:text-5xl animate-bounce">🎂</span>
+                    </div>
+                    <span class="absolute -top-2 -right-2 text-xl animate-pulse">💖</span>
+                    <span class="absolute -bottom-1 -left-2 text-lg">✨</span>
+                </div>
+
+                <!-- Main Greeting Text -->
+                <div class="space-y-2">
+                    <h2 class="font-cute font-bold text-lg min-[400px]:text-xl sm:text-2xl text-[#0b2545] leading-tight whitespace-nowrap">
+                        Happy Birthday, Ayang Epan! 🎉
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-600 font-medium max-w-xs mx-auto leading-relaxed pt-1">
+                        I made something special for you ♥
+                    </p>
+                </div>
+
+                <!-- Next Page Button -->
+                <div class="pt-2">
+                    <button onclick="goToPage(2)" class="inline-flex items-center gap-2 px-7 py-3 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-sm rounded-full shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 border border-slate-100 cursor-pointer">
+                        <span>Next</span>
+                        <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                        </svg>
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= PAGE 2 (Playlist / Songs) ================= -->
+        <section id="page-2" class="page-section hidden w-full max-w-md text-center transition-all duration-500 transform scale-95 opacity-0">
+            <div class="backdrop-blur-md bg-white/50 border border-white/70 shadow-2xl shadow-sky-950/10 rounded-3xl p-6 sm:p-7 space-y-5">
+                
+                <!-- Page Title -->
+                <div class="space-y-1">
+                    <h2 class="font-cute font-bold text-xl sm:text-2xl text-[#0b2545]">
+                        Songs For You
+                    </h2>
+                </div>
+
+                <!-- Rotating Vinyl Record Section -->
+                <div class="relative w-36 h-36 sm:w-44 sm:h-44 mx-auto my-2 flex items-center justify-center">
+                    <!-- Vinyl Outer Shadow Container (Continuously Rotating) -->
+                    <div id="vinylRecord" class="w-full h-full rounded-full bg-slate-950 p-1.5 shadow-xl shadow-slate-950/20 border-4 border-slate-800 relative animate-spin-slow overflow-hidden">
+                        
+                        <!-- Realistic Vinyl Concentric Grooves -->
+                        <div class="w-full h-full rounded-full border border-slate-800 flex items-center justify-center relative">
+                            <div class="w-[85%] h-[85%] rounded-full border border-slate-800/80 flex items-center justify-center">
+                                <div class="w-[70%] h-[70%] rounded-full border border-slate-800/60 flex items-center justify-center">
+                                    <div class="w-[55%] h-[55%] rounded-full border border-slate-800/40 flex items-center justify-center"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Light Sheen Reflection Overlay -->
+                        <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none"></div>
+
+                        <!-- Center Album Label -->
+                        <div class="absolute inset-0 m-auto w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-tr from-sky-400 to-indigo-400 border-4 border-slate-900 flex items-center justify-center shadow-inner">
+                            <div class="w-3 h-3 bg-slate-900 rounded-full flex items-center justify-center">
+                                <div class="w-1 h-1 bg-white rounded-full"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3 Music Cards List -->
+                <div class="space-y-3 text-left">
+                    
+                    <!-- Song 1: Teman Hidup - Tulus -->
+                    <div class="bg-white/70 hover:bg-white/90 backdrop-blur-xs border border-white/80 rounded-2xl p-3.5 shadow-sm transition-all duration-300">
+                        <div class="flex items-center justify-between gap-3">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-sky-200 to-indigo-200 overflow-hidden shrink-0 border border-sky-300/50 shadow-xs relative flex items-center justify-center">
+                                    <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=150&q=80" alt="Tulus Album" class="w-full h-full object-cover" onerror="this.style.display='none'">
+                                    <span class="text-base absolute">🎤</span>
+                                </div>
+                                <div class="min-w-0">
+                                    <h4 class="font-cute font-bold text-xs sm:text-sm text-slate-800 truncate">Teman Hidup</h4>
+                                    <p class="text-[11px] text-slate-500 truncate">Tulus</p>
+                                </div>
+                            </div>
+                            <button onclick="togglePlay(1)" id="playBtn-1" class="w-9 h-9 rounded-full bg-sky-500 hover:bg-sky-600 text-white flex items-center justify-center shadow-sm shrink-0 transition-transform active:scale-95 cursor-pointer">
+                                <svg id="playIcon-1" class="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                <svg id="pauseIcon-1" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            </button>
+                        </div>
+                        <audio id="audio-1" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" ontimeupdate="updateProgress(1)" onended="onSongEnded(1)"></audio>
+                        <div class="mt-2.5 w-full bg-slate-200/60 rounded-full h-1.5 overflow-hidden">
+                            <div id="progress-1" class="bg-sky-500 h-full w-0 transition-all duration-200"></div>
+                        </div>
+                    </div>
+
+                    <!-- Song 2: I Don’t Want to Miss a Thing - Aerosmith -->
+                    <div class="bg-white/70 hover:bg-white/90 backdrop-blur-xs border border-white/80 rounded-2xl p-3.5 shadow-sm transition-all duration-300">
+                        <div class="flex items-center justify-between gap-3">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-slate-700 to-indigo-900 overflow-hidden shrink-0 border border-slate-300/50 shadow-xs relative flex items-center justify-center">
+                                    <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=150&q=80" alt="Aerosmith Album" class="w-full h-full object-cover" onerror="this.style.display='none'">
+                                    <span class="text-base absolute">🎸</span>
+                                </div>
+                                <div class="min-w-0">
+                                    <h4 class="font-cute font-bold text-xs sm:text-sm text-slate-800 truncate">I Don’t Want to Miss a Thing</h4>
+                                    <p class="text-[11px] text-slate-500 truncate">Aerosmith</p>
+                                </div>
+                            </div>
+                            <button onclick="togglePlay(2)" id="playBtn-2" class="w-9 h-9 rounded-full bg-sky-500 hover:bg-sky-600 text-white flex items-center justify-center shadow-sm shrink-0 transition-transform active:scale-95 cursor-pointer">
+                                <svg id="playIcon-2" class="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                <svg id="pauseIcon-2" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            </button>
+                        </div>
+                        <audio id="audio-2" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" ontimeupdate="updateProgress(2)" onended="onSongEnded(2)"></audio>
+                        <div class="mt-2.5 w-full bg-slate-200/60 rounded-full h-1.5 overflow-hidden">
+                            <div id="progress-2" class="bg-sky-500 h-full w-0 transition-all duration-200"></div>
+                        </div>
+                    </div>
+
+                    <!-- Song 3: I Wanna Grow Old with You - Westlife -->
+                    <div class="bg-white/70 hover:bg-white/90 backdrop-blur-xs border border-white/80 rounded-2xl p-3.5 shadow-sm transition-all duration-300">
+                        <div class="flex items-center justify-between gap-3">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-sky-300 to-blue-500 overflow-hidden shrink-0 border border-sky-300/50 shadow-xs relative flex items-center justify-center">
+                                    <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=150&q=80" alt="Westlife Album" class="w-full h-full object-cover" onerror="this.style.display='none'">
+                                    <span class="text-base absolute">💫</span>
+                                </div>
+                                <div class="min-w-0">
+                                    <h4 class="font-cute font-bold text-xs sm:text-sm text-slate-800 truncate">I Wanna Grow Old with You</h4>
+                                    <p class="text-[11px] text-slate-500 truncate">Westlife</p>
+                                </div>
+                            </div>
+                            <button onclick="togglePlay(3)" id="playBtn-3" class="w-9 h-9 rounded-full bg-sky-500 hover:bg-sky-600 text-white flex items-center justify-center shadow-sm shrink-0 transition-transform active:scale-95 cursor-pointer">
+                                <svg id="playIcon-3" class="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                <svg id="pauseIcon-3" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            </button>
+                        </div>
+                        <audio id="audio-3" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" ontimeupdate="updateProgress(3)" onended="onSongEnded(3)"></audio>
+                        <div class="mt-2.5 w-full bg-slate-200/60 rounded-full h-1.5 overflow-hidden">
+                            <div id="progress-3" class="bg-sky-500 h-full w-0 transition-all duration-200"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Next Page Button -->
+                <div class="pt-2">
+                    <button onclick="goToPage(3)" class="inline-flex items-center gap-2 px-6 py-2.5 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs sm:text-sm rounded-full shadow-md hover:shadow-lg transition-all duration-300 border border-slate-100 cursor-pointer">
+                        <span>Next</span>
+                        <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 3 (Envelope Letter) ================= -->
+        <section id="page-3" class="page-section hidden w-full max-w-md text-center transition-all duration-500 transform scale-95 opacity-0">
+            <div class="space-y-6">
+                
+                <!-- Envelope Interactive Container -->
+                <div class="envelope-wrapper py-4">
+                    <div id="envelopeCard" onclick="handleEnvelopeClick(event)" class="envelope-card group">
+                        
+                        <!-- Inner Envelope Cavity -->
+                        <div class="env-inner-lining"></div>
+
+                        <!-- Top Flap Fold -->
+                        <div class="envelope-flap"></div>
+
+                        <!-- Heart Wax Seal -->
+                        <div class="heart-seal">❤️</div>
+
+                        <!-- Front Pocket Overlays -->
+                        <div class="pocket-left"></div>
+                        <div class="pocket-right"></div>
+                        <div class="pocket-bottom"></div>
+
+                        <!-- Letter nestled inside pocket -->
+                        <div id="letterPaper" onclick="openLetterModal(event)" class="letter-paper paper-texture border border-amber-900/10 text-left flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between border-b border-slate-300/60 pb-1.5">
+                                    <h3 class="font-cute font-bold text-xs sm:text-sm text-slate-800">Happy Birthday, ......</h3>
+                                    <span class="text-xs">💌</span>
+                                </div>
+                                <div class="mt-2 space-y-1.5">
+                                    <div class="w-full h-1.5 bg-slate-300/50 rounded"></div>
+                                    <div class="w-4/5 h-1.5 bg-slate-300/40 rounded"></div>
+                                    <div class="w-2/3 h-1.5 bg-slate-300/30 rounded"></div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center text-[10px] text-slate-400 font-cute pt-1">
+                                <span>Tap to expand full letter</span>
+                                <span class="text-sky-600 font-semibold">Open ↗</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Helper Prompt Text -->
+                <p id="envelopePromptText" class="text-xs font-medium text-slate-600 bg-white/40 backdrop-blur-xs py-1.5 px-4 rounded-full inline-block border border-white/50">
+                    Tap the envelope to open
+                </p>
+
+                <!-- Next Page Button -->
+                <div id="page3NextBtn" class="hidden pt-1">
+                    <button onclick="goToPage(4)" class="inline-flex items-center gap-2 px-7 py-3 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-sm rounded-full shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 border border-slate-100 cursor-pointer">
+                        <span>Next</span>
+                        <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                        </svg>
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= PAGE 4 (Photo Gallery) ================= -->
+        <section id="page-4" class="page-section hidden w-full max-w-xl text-center transition-all duration-500 transform scale-95 opacity-0">
+            <div class="backdrop-blur-md bg-white/50 border border-white/70 shadow-2xl shadow-sky-950/10 rounded-3xl p-4 sm:p-7 space-y-4">
+                
+                <!-- Page Title -->
+                <h2 class="font-cute font-bold text-xl sm:text-2xl text-[#0b2545]">
+                    Moments With You 📸
+                </h2>
+
+                <!-- Polaroid Photo Gallery: Structured 3 (Top Row) & 2 (Bottom Row) -->
+                <div class="space-y-3 sm:space-y-4">
+                    <!-- Top Row: 3 Photos (Portrait, Landscape in Middle, Portrait) -->
+                    <div class="flex justify-center items-center gap-2 sm:gap-3 text-left">
+                        
+                        <!-- Polaroid 1 (Left - Portrait) -->
+                        <div class="w-[88px] min-[400px]:w-[102px] sm:w-[130px] bg-white p-1.5 sm:p-2 pb-2.5 sm:pb-3 rounded-xl shadow-md border border-slate-100 transform -rotate-2 hover:rotate-0 transition-transform duration-300 relative group shrink-0">
+                            <div class="absolute -top-2 left-1/2 -translate-x-1/2 w-6 sm:w-7 h-3 bg-sky-200/70 border border-sky-300/40 rounded-xs shadow-xs z-10"></div>
+                            <div class="w-full aspect-[3/4] bg-sky-100 rounded-lg overflow-hidden">
+                                <img src="IMG_2029.jpg" alt="Sweet Moment" class="w-full h-full object-cover object-top">
+                            </div>
+                            <p class="font-cute text-[9px] sm:text-xs text-slate-700 text-center mt-1 sm:mt-1.5 font-medium truncate">Sweet Moment 💕</p>
+                        </div>
+
+                        <!-- Polaroid 2 (MIDDLE - LANDSCAPE PHOTO: IMG_4328.JPG.jpeg) -->
+                        <div class="w-[125px] min-[400px]:w-[148px] sm:w-[185px] bg-white p-1.5 sm:p-2 pb-2.5 sm:pb-3 rounded-xl shadow-md border border-slate-100 transform rotate-1 hover:rotate-0 transition-transform duration-300 relative group shrink-0">
+                            <div class="absolute -top-2 left-1/2 -translate-x-1/2 w-7 sm:w-8 h-3 bg-sky-200/70 border border-sky-300/40 rounded-xs shadow-xs z-10"></div>
+                            <div class="w-full aspect-[4/3] bg-sky-100 rounded-lg overflow-hidden">
+                                <img src="IMG_4328.JPG.jpeg" alt="Photobooth Fun" class="w-full h-full object-cover object-center">
+                            </div>
+                            <p class="font-cute text-[9px] sm:text-xs text-slate-700 text-center mt-1 sm:mt-1.5 font-medium truncate">Photobooth Fun 📸</p>
+                        </div>
+
+                        <!-- Polaroid 3 (Right - Portrait) -->
+                        <div class="w-[88px] min-[400px]:w-[102px] sm:w-[130px] bg-white p-1.5 sm:p-2 pb-2.5 sm:pb-3 rounded-xl shadow-md border border-slate-100 transform -rotate-1 hover:rotate-0 transition-transform duration-300 relative group shrink-0">
+                            <div class="absolute -top-2 left-1/2 -translate-x-1/2 w-6 sm:w-7 h-3 bg-sky-200/70 border border-sky-300/40 rounded-xs shadow-xs z-10"></div>
+                            <div class="w-full aspect-[3/4] bg-sky-100 rounded-lg overflow-hidden">
+                                <img src="IMG_1915.jpg" alt="Cute Selfie" class="w-full h-full object-cover object-top">
+                            </div>
+                            <p class="font-cute text-[9px] sm:text-xs text-slate-700 text-center mt-1 sm:mt-1.5 font-medium truncate">Cute Selfie 🌸</p>
+                        </div>
+
+                    </div>
+
+                    <!-- Bottom Row: 2 Photos (Portrait) -->
+                    <div class="flex justify-center items-center gap-3 sm:gap-4 text-left">
+                        
+                        <!-- Polaroid 4 (Left - Portrait) -->
+                        <div class="w-[100px] min-[400px]:w-[118px] sm:w-[145px] bg-white p-1.5 sm:p-2 pb-2.5 sm:pb-3 rounded-xl shadow-md border border-slate-100 transform rotate-3 hover:rotate-0 transition-transform duration-300 relative group">
+                            <div class="absolute -top-2 left-1/2 -translate-x-1/2 w-6 sm:w-7 h-3 bg-sky-200/70 border border-sky-300/40 rounded-xs shadow-xs z-10"></div>
+                            <div class="w-full aspect-[3/4] bg-sky-100 rounded-lg overflow-hidden">
+                                <img src="IMG_9266.jpg" alt="Dinner Date" class="w-full h-full object-cover object-top">
+                            </div>
+                            <p class="font-cute text-[9px] sm:text-xs text-slate-700 text-center mt-1 sm:mt-1.5 font-medium truncate">Dinner Date 🥂</p>
+                        </div>
+
+                        <!-- Polaroid 5 (Right - Portrait) -->
+                        <div class="w-[100px] min-[400px]:w-[118px] sm:w-[145px] bg-white p-1.5 sm:p-2 pb-2.5 sm:pb-3 rounded-xl shadow-md border border-slate-100 transform -rotate-2 hover:rotate-0 transition-transform duration-300 relative group">
+                            <div class="absolute -top-2 left-1/2 -translate-x-1/2 w-6 sm:w-7 h-3 bg-sky-200/70 border border-sky-300/40 rounded-xs shadow-xs z-10"></div>
+                            <div class="w-full aspect-[3/4] bg-sky-100 rounded-lg overflow-hidden">
+                                <img src="IMG_9453.jpg" alt="Precious Smile" class="w-full h-full object-cover object-top">
+                            </div>
+                            <p class="font-cute text-[9px] sm:text-xs text-slate-700 text-center mt-1 sm:mt-1.5 font-medium truncate">Precious Smile 💖</p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Custom Quote / Note Box -->
+                <div class="bg-white/60 rounded-2xl p-2.5 border border-white/80 text-xs text-slate-600 font-cute leading-relaxed text-center">
+                    Every moment spent with you is my favorite memory!💖
+                </div>
+
+                <!-- Next Page Button -->
+                <div class="pt-1">
+                    <button onclick="goToPage(5)" class="inline-flex items-center gap-2 px-6 py-2.5 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs sm:text-sm rounded-full shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 border border-slate-100 cursor-pointer">
+                        <span>Next</span>
+                        <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 5 ================= -->
+        <section id="page-5" class="page-section hidden w-full max-w-lg text-center transition-all duration-500 transform scale-95 opacity-0">
+            <div class="backdrop-blur-md bg-white/70 border border-white/80 shadow-2xl shadow-sky-950/10 rounded-3xl p-5 sm:p-7 space-y-4">
+                
+                <!-- Page Title -->
+                <div class="space-y-1">
+                    <span class="px-3.5 py-1 text-slate-800 text-xs font-semibold rounded-full border border-[#BDE0FE] inline-block shadow-xs" style="background-color: #C9E4F6;">
+                        Catch The Hearts 🩵
+                    </span>
+                    <h2 class="font-cute font-bold text-xl sm:text-2xl text-[#0b2545]">
+                        10 Reasons that make me love you
+                    </h2>
+                    <p class="text-xs text-slate-600 font-medium">
+                        Tap the falling hearts to open each reason! (<span id="caughtCount" class="font-bold text-slate-800">0</span>/10)
+                    </p>
+                </div>
+
+                <!-- Interactive Falling Area Container (Pure White Background) -->
+                <div id="heartGameArea" class="relative w-full h-72 sm:h-80 bg-white rounded-2xl border-2 border-[#C9E4F6] overflow-hidden shadow-inner">
+                    <!-- Guidance watermark hint -->
+                    <div id="gameStartHint" class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none select-none opacity-40">
+                        <svg class="w-10 h-10 animate-bounce" viewBox="0 0 24 24" fill="#A9D6F5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        <p class="text-xs font-cute text-slate-600 mt-1">Tap a falling heart!</p>
+                    </div>
+                </div>
+
+                <!-- Action Controls -->
+                <div class="flex items-center justify-center gap-3 pt-1">
+                    <button onclick="resetHeartGame()" class="inline-flex items-center gap-1.5 px-4 py-2 hover:opacity-90 text-slate-800 font-semibold text-xs rounded-full border border-[#A9D6F5] shadow-xs transition-all cursor-pointer" style="background-color: #C9E4F6;">
+                        <span>Replay Hearts 🔄</span>
+                    </button>
+                    <button onclick="goToPage(6)" class="inline-flex items-center gap-2 px-5 py-2 bg-sky-600 hover:bg-sky-700 text-white font-semibold text-xs rounded-full shadow-md hover:shadow-lg transition-all cursor-pointer">
+                        <span>Next ✨</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 6 (Closing Page) ================= -->
+        <section id="page-6" class="page-section hidden w-full max-w-md text-center transition-all duration-500 transform scale-95 opacity-0">
+            <div class="backdrop-blur-md bg-white/70 border border-white/80 shadow-2xl shadow-sky-950/10 rounded-3xl p-6 sm:p-8 space-y-6 relative overflow-hidden cursor-pointer" onclick="triggerConfetti(event)">
+                
+                <!-- Birthday Boy Illustration (Centered) -->
+                <div class="relative w-48 h-48 sm:w-56 sm:h-56 mx-auto group">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-sky-200 to-indigo-100 rounded-full filter blur-md opacity-70 group-hover:opacity-100 transition-opacity"></div>
+                    <img src="birthday boy.png" alt="Birthday Boy" class="relative w-full h-full object-contain drop-shadow-xl transform hover:scale-105 transition-transform duration-300">
+                </div>
+
+                <!-- Aesthetic Closing Message -->
+                <div class="bg-white/60 backdrop-blur-xs border border-white/90 rounded-2xl p-5 shadow-inner space-y-3 mx-auto">
+                    <p class="font-mistrully text-3xl sm:text-4xl text-[#0b2545] leading-snug">
+                        Thank you for bringing<br>so much light into my life
+                    </p>
+                    <div class="flex items-center justify-center gap-2">
+                        <div class="h-px w-8 bg-sky-200"></div>
+                        <span class="text-xs text-sky-400">✨</span>
+                        <div class="h-px w-8 bg-sky-200"></div>
+                    </div>
+                    <p class="text-[8.5px] min-[360px]:text-[10px] sm:text-xs text-slate-600 font-medium italic leading-relaxed whitespace-nowrap">
+                        may this year as wonderful to you as you are to me. ❤️
+                    </p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+                    <button onclick="triggerConfetti(event)" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-600 hover:to-indigo-600 text-white font-semibold text-xs sm:text-sm rounded-full shadow-md hover:shadow-lg transition-all active:scale-95 cursor-pointer">
+                        <span>Pop Confetti! 🎉</span>
+                    </button>
+                    <button onclick="goToPage(1); event.stopPropagation();" class="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-5 py-2.5 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs sm:text-sm rounded-full shadow-sm hover:shadow-md transition-all border border-slate-200 cursor-pointer">
+                        <span>Back to Start 🌸</span>
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Expanded Full-Screen Letter Modal -->
+    <div id="letterModal" class="modal-backdrop fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0 invisible">
+        
+        <div class="relative w-full max-w-lg bg-[#fcfbf7] paper-texture rounded-2xl shadow-2xl border border-amber-900/10 p-6 sm:p-8 space-y-6 transform scale-90 transition-all duration-300 max-h-[85vh] overflow-y-auto" id="modalContent">
+            
+            <!-- Close Button (Top Right "X") -->
+            <button onclick="closeLetterModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-200/60 hover:bg-slate-200 text-slate-600 hover:text-slate-800 flex items-center justify-center font-bold text-sm transition-colors cursor-pointer">
+                ✕
+            </button>
+
+            <!-- Letter Header -->
+            <div class="border-b border-slate-300/80 pb-3">
+                <h3 class="font-cute text-xl sm:text-2xl font-bold text-slate-800">
+                    Happy Birthday, Ayang Epan! 🎉
+                </h3>
+            </div>
+
+            <!-- Letter Content Text Body -->
+            <div class="space-y-4 text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">
+                <p>
+                    Dearest Ayang Epan,
+                </p>
+                <p>
+                    On this special day, I want to remind you how incredibly loved and cherished you are. Thank you for bringing so much warmth, laughter, and happiness into my life every single day.
+                </p>
+                <p>
+                    May this new chapter bring you endless joy, sound health, success in everything you strive for, and all the sweet moments your heart desires. Always keep smiling your beautiful smile!
+                </p>
+                <p class="pt-2">
+                    Wishing you the happiest birthday ever! 🥂✨
+                </p>
+            </div>
+
+            <!-- Letter Sign-off Footer -->
+            <div class="pt-4 border-t border-slate-300/60 flex justify-start items-center">
+                <p class="text-sm sm:text-base text-slate-700 font-normal">
+                    With love, Nini ❤️
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Reason Modal for Page 5 Hearts -->
+    <div id="reasonModal" class="modal-backdrop fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0 invisible transition-all duration-300">
+        <div class="relative w-full max-w-xs sm:max-w-sm bg-white rounded-2xl shadow-2xl border-2 border-[#C9E4F6] p-5 text-center space-y-4 transform scale-90 transition-all duration-300" id="reasonModalContent">
+            
+            <button onclick="closeReasonModal()" class="absolute top-3 right-3 w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-xs transition-colors cursor-pointer">
+                ✕
+            </button>
+
+            <div class="w-14 h-14 rounded-full bg-white border-2 flex items-center justify-center mx-auto shadow-md" id="modalHeartBadge">
+            </div>
+
+            <div class="space-y-1">
+                <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider" id="modalReasonNumber">Reason #1</span>
+                <h3 class="font-cute text-base sm:text-lg font-bold text-[#0b2545] leading-snug" id="modalReasonTitle">Your Beautiful Smile</h3>
+            </div>
+
+            <p class="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed" id="modalReasonText">
+                Your smile brightens up even my darkest days.
+            </p>
+
+            <div class="pt-2">
+                <button onclick="closeReasonModal()" id="modalCloseBtn" class="px-6 py-2 text-slate-800 font-cute font-bold text-xs rounded-full shadow-sm hover:opacity-90 transition-all active:scale-95 cursor-pointer">
+                    Keep Catching 💕
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-3 text-center text-[11px] text-slate-500 backdrop-blur-xs bg-white/20">
+        Made with ❤️ for your special day
+    </footer>
+
+    <!-- Background Happy Birthday Audio (Plays from Page 3 onwards) -->
+    <audio id="bgHappyBirthdayAudio" loop src="https://actions.google.com/sounds/v1/holidays/happy_birthday_box.ogg"></audio>
+
+    <!-- Interactive Logic Script -->
+    <script>
+        let currentPage = 1;
+        let isEnvelopeOpen = false;
+
+        function goToPage(pageNumber) {
+            // Hide current page
+            const currentSec = document.getElementById(`page-${currentPage}`);
+            const targetSec = document.getElementById(`page-${pageNumber}`);
+            
+            if (currentSec && targetSec) {
+                currentSec.classList.add('opacity-0', 'scale-95');
+                
+                setTimeout(() => {
+                    currentSec.classList.add('hidden');
+                    targetSec.classList.remove('hidden');
+                    
+                    // Trigger entry animation
+                    setTimeout(() => {
+                        targetSec.classList.remove('opacity-0', 'scale-95');
+                        targetSec.classList.add('opacity-100', 'scale-100');
+                    }, 50);
+                }, 300);
+            }
+
+            // Update Navigation Dots
+            for (let i = 1; i <= 6; i++) {
+                const dot = document.getElementById(`dot-${i}`);
+                if (dot) {
+                    if (i === pageNumber) {
+                        dot.className = "w-6 h-2.5 rounded-full bg-sky-600 transition-all duration-300";
+                    } else {
+                        dot.className = "w-2.5 h-2.5 rounded-full bg-sky-200 transition-all duration-300";
+                    }
+                }
+            }
+
+            currentPage = pageNumber;
+
+            // Handle Happy Birthday background music (starts after 2nd page)
+            const bgAudio = document.getElementById('bgHappyBirthdayAudio');
+            if (bgAudio) {
+                if (pageNumber > 2) {
+                    // Stop any individual playlist track if playing
+                    if (currentPlayingId) {
+                        const activeAudio = document.getElementById(`audio-${currentPlayingId}`);
+                        if (activeAudio) activeAudio.pause();
+                        updatePlayButtonState(currentPlayingId, false);
+                        currentPlayingId = null;
+                    }
+                    bgAudio.play().catch(() => {});
+                } else {
+                    bgAudio.pause();
+                }
+            }
+
+            // Trigger falling hearts setup when navigating to Page 5
+            if (pageNumber === 5) {
+                initHeartGame();
+            }
+
+            // Trigger confetti burst when entering Page 6
+            if (pageNumber === 6) {
+                setTimeout(() => {
+                    triggerConfetti();
+                }, 300);
+            }
+        }
+
+        /* ================= PAGE 6: CONFETTI EFFECT ================= */
+        function triggerConfetti(event) {
+            if (event) event.stopPropagation();
+            
+            if (typeof confetti === 'function') {
+                // Dual side cannons
+                confetti({
+                    particleCount: 60,
+                    spread: 70,
+                    origin: { y: 0.7, x: 0.3 },
+                    colors: ['#C9E4F6', '#BDE0FE', '#A9D6F5', '#3b82f6', '#f472b6']
+                });
+                confetti({
+                    particleCount: 60,
+                    spread: 70,
+                    origin: { y: 0.7, x: 0.7 },
+                    colors: ['#C9E4F6', '#BDE0FE', '#A9D6F5', '#3b82f6', '#fbbf24']
+                });
+            }
+        }
+
+        // Handle envelope flap opening (Step 1)
+        function handleEnvelopeClick(event) {
+            const envelope = document.getElementById('envelopeCard');
+            const promptText = document.getElementById('envelopePromptText');
+            
+            if (!isEnvelopeOpen) {
+                envelope.classList.add('is-open');
+                isEnvelopeOpen = true;
+                if (promptText) {
+                    promptText.innerText = "Tap the letter to open full message";
+                }
+            }
+        }
+
+        // Open full-screen modal (Step 2)
+        function openLetterModal(event) {
+            event.stopPropagation(); // Prevents re-triggering envelope click
+            const modal = document.getElementById('letterModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            modal.classList.remove('invisible', 'opacity-0');
+            modal.classList.add('opacity-100');
+            
+            setTimeout(() => {
+                modalContent.classList.remove('scale-90');
+                modalContent.classList.add('scale-100');
+            }, 50);
+        }
+
+        // Close full-screen letter modal and reveal Next button on Page 3
+        function closeLetterModal() {
+            const modal = document.getElementById('letterModal');
+            const modalContent = document.getElementById('modalContent');
+            const page3NextBtn = document.getElementById('page3NextBtn');
+            const promptText = document.getElementById('envelopePromptText');
+
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-90');
+            modal.classList.remove('opacity-100');
+            modal.classList.add('opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('invisible');
+                // Reveal the Next button on Page 3 once closed
+                if (page3NextBtn) {
+                    page3NextBtn.classList.remove('hidden');
+                }
+                if (promptText) {
+                    promptText.classList.add('hidden');
+                }
+            }, 300);
+        }
+
+        // Close modal when clicking outside paper
+        document.getElementById('letterModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLetterModal();
+            }
+        });
+
+        /* ================= MUSIC PLAYER CONTROLS ================= */
+        let currentPlayingId = null;
+
+        function togglePlay(id) {
+            const targetAudio = document.getElementById(`audio-${id}`);
+            const vinyl = document.getElementById('vinylRecord');
+            
+            // If another audio is playing, pause it first
+            if (currentPlayingId && currentPlayingId !== id) {
+                const prevAudio = document.getElementById(`audio-${currentPlayingId}`);
+                if (prevAudio) {
+                    prevAudio.pause();
+                    updatePlayButtonState(currentPlayingId, false);
+                }
+            }
+
+            if (targetAudio.paused) {
+                targetAudio.play();
+                updatePlayButtonState(id, true);
+                currentPlayingId = id;
+                if (vinyl) vinyl.classList.remove('paused');
+            } else {
+                targetAudio.pause();
+                updatePlayButtonState(id, false);
+                currentPlayingId = null;
+                if (vinyl) vinyl.classList.add('paused');
+            }
+        }
+
+        function updatePlayButtonState(id, isPlaying) {
+            const playIcon = document.getElementById(`playIcon-${id}`);
+            const pauseIcon = document.getElementById(`pauseIcon-${id}`);
+            
+            if (isPlaying) {
+                if (playIcon) playIcon.classList.add('hidden');
+                if (pauseIcon) pauseIcon.classList.remove('hidden');
+            } else {
+                if (playIcon) playIcon.classList.remove('hidden');
+                if (pauseIcon) pauseIcon.classList.add('hidden');
+            }
+        }
+
+        function updateProgress(id) {
+            const audio = document.getElementById(`audio-${id}`);
+            const progress = document.getElementById(`progress-${id}`);
+            if (audio && progress && audio.duration) {
+                const percentage = (audio.currentTime / audio.duration) * 100;
+                progress.style.width = `${percentage}%`;
+            }
+        }
+
+        function onSongEnded(id) {
+            const vinyl = document.getElementById('vinylRecord');
+            updatePlayButtonState(id, false);
+            const progress = document.getElementById(`progress-${id}`);
+            if (progress) progress.style.width = '0%';
+            currentPlayingId = null;
+            if (vinyl) vinyl.classList.add('paused');
+        }
+
+        /* ================= PAGE 5: 10 FALLING HEARTS GAME ================= */
+        const reasonsList = [
+            { id: 1, title: "Your Beautiful Smile", text: "Your smile instantly brightens up my whole world every day.", color: "#C9E4F6" },
+            { id: 2, title: "Your Kind & Caring Heart", text: "The gentle, loving way you treat me and everyone around you.", color: "#BDE0FE" },
+            { id: 3, title: "Our Endless Laughter", text: "I love how easily we laugh together at the silly little things.", color: "#A9D6F5" },
+            { id: 4, title: "Your Warm Hugs", text: "Being wrapped in your arms is my ultimate favorite safe space.", color: "#C9E4F6" },
+            { id: 5, title: "You Make Me Feel Safe", text: "With you, I can completely be myself without any fear.", color: "#BDE0FE" },
+            { id: 6, title: "Your Patience", text: "Thank you for always listening to me so patiently and lovingly.", color: "#A9D6F5" },
+            { id: 7, title: "Your Cute Expressions", text: "Every adorable reaction and habit of yours melts my heart.", color: "#C9E4F6" },
+            { id: 8, title: "How Thoughtful You Are", text: "You always remember tiny details and make me feel so special.", color: "#BDE0FE" },
+            { id: 9, title: "Unforgettable Memories", text: "Every day spent with you is a precious memory I cherish.", color: "#A9D6F5" },
+            { id: 10, title: "My Soulmate & Best Friend", text: "You are not just my love, but my absolute favorite person forever.", color: "#C9E4F6" }
+        ];
+
+        let caughtHearts = new Set();
+        let heartGameInitialized = false;
+
+        function initHeartGame() {
+            if (heartGameInitialized) return;
+            heartGameInitialized = true;
+            resetHeartGame();
+        }
+
+        function resetHeartGame() {
+            const gameArea = document.getElementById('heartGameArea');
+            if (!gameArea) return;
+
+            // Clear old falling hearts except watermark hint
+            const oldHearts = gameArea.querySelectorAll('.falling-heart-btn');
+            oldHearts.forEach(h => h.remove());
+
+            caughtHearts.clear();
+            updateCaughtCounter();
+
+            // Spawn 10 hearts with random positions, speeds, and delays
+            reasonsList.forEach((item, index) => {
+                const btn = document.createElement('button');
+                btn.className = `falling-heart-btn absolute rounded-full w-11 h-11 sm:w-12 sm:h-12 flex items-center justify-center bg-white border-2 shadow-md transition-transform duration-200 active:scale-125 cursor-pointer animate-fall`;
+                btn.style.borderColor = item.color;
+                btn.style.backgroundColor = '#ffffff';
+                
+                // Spread horizontally across container (5% to 85%)
+                const leftPos = Math.floor(5 + (index * 8.5) + (Math.random() * 3));
+                // Vary speed duration (4.5s to 7.5s)
+                const duration = (4.5 + Math.random() * 3).toFixed(1);
+                // Stagger delay (0.2s to 3.5s)
+                const delay = (index * 0.35 + Math.random() * 0.4).toFixed(1);
+
+                btn.style.left = `${leftPos}%`;
+                btn.style.animationDuration = `${duration}s`;
+                btn.style.animationDelay = `${delay}s`;
+
+                // Vector SVG Heart strictly filled with specified custom pastel blue color
+                btn.innerHTML = `<svg class="w-6 h-6 sm:w-7 sm:h-7 pointer-events-none drop-shadow-xs" viewBox="0 0 24 24" fill="${item.color}"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`;
+                btn.onclick = (e) => catchHeart(e, item, btn);
+
+                gameArea.appendChild(btn);
+            });
+        }
+
+        function catchHeart(event, item, btnElement) {
+            event.stopPropagation();
+            
+            // Mark heart caught
+            caughtHearts.add(item.id);
+            updateCaughtCounter();
+
+            // Visual feedback: dim and pause caught heart
+            btnElement.style.animationPlayState = 'paused';
+            btnElement.classList.add('opacity-40', 'scale-90');
+
+            // Open Modal
+            openReasonModal(item);
+        }
+
+        function updateCaughtCounter() {
+            const counter = document.getElementById('caughtCount');
+            if (counter) {
+                counter.innerText = caughtHearts.size;
+            }
+        }
+
+        function openReasonModal(item) {
+            const modal = document.getElementById('reasonModal');
+            const modalContent = document.getElementById('reasonModalContent');
+            const badge = document.getElementById('modalHeartBadge');
+            const num = document.getElementById('modalReasonNumber');
+            const title = document.getElementById('modalReasonTitle');
+            const text = document.getElementById('modalReasonText');
+            const closeBtn = document.getElementById('modalCloseBtn');
+
+            if (badge) {
+                badge.style.backgroundColor = '#ffffff';
+                badge.style.borderColor = item.color;
+                badge.innerHTML = `<svg class="w-7 h-7" viewBox="0 0 24 24" fill="${item.color}"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`;
+            }
+            if (closeBtn) {
+                closeBtn.style.backgroundColor = item.color;
+            }
+            if (num) num.innerText = `Reason #${item.id}`;
+            if (title) title.innerText = item.title;
+            if (text) text.innerText = item.text;
+
+            modal.classList.remove('invisible', 'opacity-0');
+            modal.classList.add('opacity-100');
+            
+            setTimeout(() => {
+                modalContent.classList.remove('scale-90');
+                modalContent.classList.add('scale-100');
+            }, 50);
+        }
+
+        function closeReasonModal() {
+            const modal = document.getElementById('reasonModal');
+            const modalContent = document.getElementById('reasonModalContent');
+
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-90');
+            modal.classList.remove('opacity-100');
+            modal.classList.add('opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('invisible');
+            }, 300);
+        }
+
+        // Close reason modal when clicking backdrop
+        document.getElementById('reasonModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeReasonModal();
+            }
+        });
+    </script>
+</body>
+</html>
