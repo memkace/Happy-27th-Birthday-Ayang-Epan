@@ -78,7 +78,6 @@
             }
         }
 
-        /* Inner lining pocket cavity */
         .env-inner-lining {
             position: absolute;
             inset: 5px;
@@ -88,7 +87,6 @@
             overflow: hidden;
         }
 
-        /* Envelope Flap Top */
         .envelope-flap {
             position: absolute;
             top: 0;
@@ -108,7 +106,6 @@
             z-index: 1;
         }
 
-        /* Front Pockets */
         .pocket-left {
             position: absolute;
             inset: 0;
@@ -137,7 +134,6 @@
             filter: drop-shadow(0 -2px 4px rgba(0,0,0,0.08));
         }
 
-        /* Heart Seal */
         .heart-seal {
             position: absolute;
             top: 55%;
@@ -161,7 +157,6 @@
             pointer-events: none;
         }
 
-        /* Letter paper inside envelope */
         .letter-paper {
             position: absolute;
             left: 6%;
@@ -188,23 +183,58 @@
             transform: translateY(-34px);
         }
 
-        /* Modal backdrop transition */
         .modal-backdrop {
             transition: opacity 0.4s ease, visibility 0.4s ease;
         }
 
-        /* Slow spinning animation for Vinyl Record */
-        @keyframes spinSlow {
+        /* ================= ENHANCED ROTATING VINYL & TURNTABLE ================= */
+        @keyframes spinVinyl {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
 
-        .animate-spin-slow {
-            animation: spinSlow 12s linear infinite;
+        .vinyl-disc {
+            animation: spinVinyl 9s linear infinite;
+            will-change: transform;
         }
 
-        .animate-spin-slow.paused {
-            animation-play-state: paused;
+        .vinyl-disc.is-playing {
+            animation-duration: 4.5s;
+        }
+
+        /* Design 1: Classic Glossy Black Vinyl */
+        .vinyl-theme-classic {
+            background:
+                conic-gradient(
+                    from 30deg,
+                    rgba(255, 255, 255, 0.24) 0deg,
+                    rgba(255, 255, 255, 0.02) 38deg,
+                    rgba(255, 255, 255, 0) 95deg,
+                    rgba(255, 255, 255, 0.20) 180deg,
+                    rgba(255, 255, 255, 0.02) 218deg,
+                    rgba(255, 255, 255, 0) 275deg,
+                    rgba(255, 255, 255, 0.24) 360deg
+                ),
+                repeating-radial-gradient(
+                    circle at center,
+                    #0f172a 0px,
+                    #0f172a 2px,
+                    #1e293b 3px,
+                    #070b14 4px
+                );
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.28), inset 0 0 0 3px rgba(255, 255, 255, 0.1);
+        }
+
+        
+        /* Tonearm Needle Animation */
+        .vinyl-tonearm {
+            transform-origin: 26px 26px;
+            transform: rotate(-22deg);
+            transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .vinyl-tonearm.is-playing {
+            transform: rotate(5deg);
         }
 
         /* Falling Hearts Animation for Page 5 */
@@ -313,9 +343,9 @@
     <!-- Header Navigation Bar -->
     <header class="w-full py-4 px-6 flex justify-between items-center backdrop-blur-xs bg-white/30 border-b border-white/40 sticky top-0 z-40">
         <div class="flex items-center gap-2">
-            <span class="text-xl">✨</span>
+            <span class="text-xl">🎂</span>
             <h1 class="font-cute font-bold text-base sm:text-lg text-[#0b2545] tracking-wide">
-                Ayang Epan's Day
+                Epan's 27th Birthday
             </h1>
         </div>
 
@@ -371,40 +401,61 @@
 
         <!-- ================= PAGE 2 (Playlist / Songs) ================= -->
         <section id="page-2" class="page-section hidden w-full max-w-md text-center transition-all duration-500 transform scale-95 opacity-0">
-            <div class="backdrop-blur-md bg-white/50 border border-white/70 shadow-2xl shadow-sky-950/10 rounded-3xl p-6 sm:p-7 space-y-5">
+            <div class="backdrop-blur-md bg-white/50 border border-white/70 shadow-2xl shadow-sky-950/10 rounded-3xl p-6 sm:p-7 space-y-4">
                 
                 <!-- Page Title -->
-                <div class="space-y-1">
+                <div class="space-y-0.5">
                     <h2 class="font-cute font-bold text-xl sm:text-2xl text-[#0b2545]">
                         Songs For You
                     </h2>
                 </div>
 
-                <!-- Rotating Vinyl Record Section -->
-                <div class="relative w-36 h-36 sm:w-44 sm:h-44 mx-auto my-2 flex items-center justify-center">
-                    <!-- Vinyl Outer Shadow Container (Continuously Rotating) -->
-                    <div id="vinylRecord" class="w-full h-full rounded-full bg-slate-950 p-1.5 shadow-xl shadow-slate-950/20 border-4 border-slate-800 relative animate-spin-slow overflow-hidden">
+                <!-- Turntable & Rotating Vinyl Record Section -->
+                <div class="flex flex-col items-center gap-2.5 my-1">
+                    <!-- Turntable Plinth Deck -->
+                    <div class="relative w-44 h-44 sm:w-48 sm:h-48 rounded-3xl bg-white/75 backdrop-blur-xs border border-white/90 shadow-lg shadow-sky-950/10 flex items-center justify-center p-3">
                         
-                        <!-- Realistic Vinyl Concentric Grooves -->
-                        <div class="w-full h-full rounded-full border border-slate-800 flex items-center justify-center relative">
-                            <div class="w-[85%] h-[85%] rounded-full border border-slate-800/80 flex items-center justify-center">
-                                <div class="w-[70%] h-[70%] rounded-full border border-slate-800/60 flex items-center justify-center">
-                                    <div class="w-[55%] h-[55%] rounded-full border border-slate-800/40 flex items-center justify-center"></div>
+                        <!-- Subtle Turntable Platter Base Ring -->
+                        <div class="w-36 h-36 sm:w-40 sm:h-40 rounded-full bg-slate-200/60 p-1 flex items-center justify-center shadow-inner">
+                            
+                            <!-- Continuously Rotating Vinyl Disc -->
+                            <div id="vinylRecord" class="vinyl-disc vinyl-theme-classic w-full h-full rounded-full relative flex items-center justify-center">
+                                
+                                <!-- Inner Groove Accent Ring -->
+                                <div class="w-[62%] h-[62%] rounded-full border border-white/15 flex items-center justify-center"></div>
+
+                                <!-- Rotating Center Album Cover Label -->
+                                <div class="absolute inset-0 m-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-tr from-sky-300 to-indigo-400 border-[3px] border-white shadow-md overflow-hidden flex items-center justify-center">
+                                    <img id="vinylCoverImg" src="TULUS - Teman Hidup.jpg" alt="Active Album Cover" class="w-full h-full object-cover" onerror="this.style.display='none'">
+                                    <!-- Center Spindle Hole -->
+                                    <div class="absolute w-3.5 h-3.5 rounded-full bg-white border border-slate-300 shadow-xs flex items-center justify-center z-10">
+                                        <div class="w-1.5 h-1.5 rounded-full bg-slate-700"></div>
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
 
-                        <!-- Light Sheen Reflection Overlay -->
-                        <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none"></div>
+                        <!-- Decorative Corner Screw Dots -->
+                        <span class="absolute top-2.5 left-2.5 w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+                        <span class="absolute bottom-2.5 left-2.5 w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+                        <span class="absolute bottom-2.5 right-2.5 w-1.5 h-1.5 rounded-full bg-slate-300"></span>
 
-                        <!-- Center Album Label -->
-                        <div class="absolute inset-0 m-auto w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-tr from-sky-400 to-indigo-400 border-4 border-slate-900 flex items-center justify-center shadow-inner">
-                            <div class="w-3 h-3 bg-slate-900 rounded-full flex items-center justify-center">
-                                <div class="w-1 h-1 bg-white rounded-full"></div>
-                            </div>
+                        <!-- Animated Turntable Tonearm (Needle) -->
+                        <div class="absolute top-1.5 right-1.5 w-14 h-32 pointer-events-none z-20">
+                            <svg id="vinylTonearm" class="vinyl-tonearm w-full h-full overflow-visible drop-shadow-sm" viewBox="0 0 56 128" fill="none">
+                                <!-- Tonearm Pivot Base -->
+                                <circle cx="26" cy="26" r="11" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5"/>
+                                <circle cx="26" cy="26" r="5" fill="#64748b"/>
+                                <!-- Metallic Arm Shaft -->
+                                <path d="M26 26 L26 78 L16 102" stroke="#64748b" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M26 26 L26 78 L16 102" stroke="#cbd5e1" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <!-- Stylus Headshell -->
+                                <rect x="9" y="99" width="9" height="14" rx="2.5" transform="rotate(24 14 106)" fill="#0f172a"/>
+                                <circle cx="12" cy="111" r="1.5" fill="#38bdf8"/>
+                            </svg>
                         </div>
                     </div>
-                </div>
 
                 <!-- 3 Music Cards List -->
                 <div class="space-y-3 text-left">
@@ -414,8 +465,7 @@
                         <div class="flex items-center justify-between gap-3">
                             <div class="flex items-center gap-3 min-w-0">
                                 <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-sky-200 to-indigo-200 overflow-hidden shrink-0 border border-sky-300/50 shadow-xs relative flex items-center justify-center">
-                                    <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=150&q=80" alt="Tulus Album" class="w-full h-full object-cover" onerror="this.style.display='none'">
-                                    <span class="text-base absolute">🎤</span>
+                                    <img src="TULUS - Teman Hidup.jpg" alt="Tulus Album" class="w-full h-full object-cover" onerror="this.style.display='none'">
                                 </div>
                                 <div class="min-w-0">
                                     <h4 class="font-cute font-bold text-xs sm:text-sm text-slate-800 truncate">Teman Hidup</h4>
@@ -438,8 +488,7 @@
                         <div class="flex items-center justify-between gap-3">
                             <div class="flex items-center gap-3 min-w-0">
                                 <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-slate-700 to-indigo-900 overflow-hidden shrink-0 border border-slate-300/50 shadow-xs relative flex items-center justify-center">
-                                    <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=150&q=80" alt="Aerosmith Album" class="w-full h-full object-cover" onerror="this.style.display='none'">
-                                    <span class="text-base absolute">🎸</span>
+                                    <img src="Aerosmith - I Don't Want to Miss a Thing.jpg" alt="Aerosmith Album" class="w-full h-full object-cover" onerror="this.style.display='none'">
                                 </div>
                                 <div class="min-w-0">
                                     <h4 class="font-cute font-bold text-xs sm:text-sm text-slate-800 truncate">I Don’t Want to Miss a Thing</h4>
@@ -462,8 +511,7 @@
                         <div class="flex items-center justify-between gap-3">
                             <div class="flex items-center gap-3 min-w-0">
                                 <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-sky-300 to-blue-500 overflow-hidden shrink-0 border border-sky-300/50 shadow-xs relative flex items-center justify-center">
-                                    <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=150&q=80" alt="Westlife Album" class="w-full h-full object-cover" onerror="this.style.display='none'">
-                                    <span class="text-base absolute">💫</span>
+                                    <img src="Westlife - I Wanna Grow Old with You.jpg" alt="Westlife Album" class="w-full h-full object-cover" onerror="this.style.display='none'">
                                 </div>
                                 <div class="min-w-0">
                                     <h4 class="font-cute font-bold text-xs sm:text-sm text-slate-800 truncate">I Wanna Grow Old with You</h4>
@@ -484,7 +532,7 @@
                 </div>
 
                 <!-- Next Page Button -->
-                <div class="pt-2">
+                <div class="pt-1">
                     <button onclick="goToPage(3)" class="inline-flex items-center gap-2 px-6 py-2.5 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs sm:text-sm rounded-full shadow-md hover:shadow-lg transition-all duration-300 border border-slate-100 cursor-pointer">
                         <span>Next</span>
                         <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -503,21 +551,13 @@
                 <div class="envelope-wrapper py-4">
                     <div id="envelopeCard" onclick="handleEnvelopeClick(event)" class="envelope-card group">
                         
-                        <!-- Inner Envelope Cavity -->
                         <div class="env-inner-lining"></div>
-
-                        <!-- Top Flap Fold -->
                         <div class="envelope-flap"></div>
-
-                        <!-- Heart Wax Seal -->
                         <div class="heart-seal">❤️</div>
-
-                        <!-- Front Pocket Overlays -->
                         <div class="pocket-left"></div>
                         <div class="pocket-right"></div>
                         <div class="pocket-bottom"></div>
 
-                        <!-- Letter nestled inside pocket -->
                         <div id="letterPaper" onclick="openLetterModal(event)" class="letter-paper paper-texture border border-amber-900/10 text-left flex flex-col justify-between">
                             <div>
                                 <div class="flex items-center justify-between border-b border-slate-300/60 pb-1.5">
@@ -539,12 +579,10 @@
                     </div>
                 </div>
 
-                <!-- Helper Prompt Text -->
                 <p id="envelopePromptText" class="text-xs font-medium text-slate-600 bg-white/40 backdrop-blur-xs py-1.5 px-4 rounded-full inline-block border border-white/50">
                     Tap the envelope to open
                 </p>
 
-                <!-- Next Page Button -->
                 <div id="page3NextBtn" class="hidden pt-1">
                     <button onclick="goToPage(4)" class="inline-flex items-center gap-2 px-7 py-3 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-sm rounded-full shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 border border-slate-100 cursor-pointer">
                         <span>Next</span>
@@ -561,17 +599,13 @@
         <section id="page-4" class="page-section hidden w-full max-w-xl text-center transition-all duration-500 transform scale-95 opacity-0">
             <div class="backdrop-blur-md bg-white/50 border border-white/70 shadow-2xl shadow-sky-950/10 rounded-3xl p-4 sm:p-7 space-y-4">
                 
-                <!-- Page Title -->
                 <h2 class="font-cute font-bold text-xl sm:text-2xl text-[#0b2545]">
                     Moments With You 📸
                 </h2>
 
-                <!-- Polaroid Photo Gallery: Structured 3 (Top Row) & 2 (Bottom Row) -->
                 <div class="space-y-3 sm:space-y-4">
-                    <!-- Top Row: 3 Photos (Portrait, Landscape in Middle, Portrait) -->
                     <div class="flex justify-center items-center gap-2 sm:gap-3 text-left">
                         
-                        <!-- Polaroid 1 (Left - Portrait) -->
                         <div class="w-[88px] min-[400px]:w-[102px] sm:w-[130px] bg-white p-1.5 sm:p-2 pb-2.5 sm:pb-3 rounded-xl shadow-md border border-slate-100 transform -rotate-2 hover:rotate-0 transition-transform duration-300 relative group shrink-0">
                             <div class="absolute -top-2 left-1/2 -translate-x-1/2 w-6 sm:w-7 h-3 bg-sky-200/70 border border-sky-300/40 rounded-xs shadow-xs z-10"></div>
                             <div class="w-full aspect-[3/4] bg-sky-100 rounded-lg overflow-hidden">
@@ -580,7 +614,6 @@
                             <p class="font-cute text-[9px] sm:text-xs text-slate-700 text-center mt-1 sm:mt-1.5 font-medium truncate">Sweet Moment 💕</p>
                         </div>
 
-                        <!-- Polaroid 2 (MIDDLE - LANDSCAPE PHOTO: IMG_4328.JPG.jpeg) -->
                         <div class="w-[125px] min-[400px]:w-[148px] sm:w-[185px] bg-white p-1.5 sm:p-2 pb-2.5 sm:pb-3 rounded-xl shadow-md border border-slate-100 transform rotate-1 hover:rotate-0 transition-transform duration-300 relative group shrink-0">
                             <div class="absolute -top-2 left-1/2 -translate-x-1/2 w-7 sm:w-8 h-3 bg-sky-200/70 border border-sky-300/40 rounded-xs shadow-xs z-10"></div>
                             <div class="w-full aspect-[4/3] bg-sky-100 rounded-lg overflow-hidden">
@@ -589,7 +622,6 @@
                             <p class="font-cute text-[9px] sm:text-xs text-slate-700 text-center mt-1 sm:mt-1.5 font-medium truncate">Photobooth Fun 📸</p>
                         </div>
 
-                        <!-- Polaroid 3 (Right - Portrait) -->
                         <div class="w-[88px] min-[400px]:w-[102px] sm:w-[130px] bg-white p-1.5 sm:p-2 pb-2.5 sm:pb-3 rounded-xl shadow-md border border-slate-100 transform -rotate-1 hover:rotate-0 transition-transform duration-300 relative group shrink-0">
                             <div class="absolute -top-2 left-1/2 -translate-x-1/2 w-6 sm:w-7 h-3 bg-sky-200/70 border border-sky-300/40 rounded-xs shadow-xs z-10"></div>
                             <div class="w-full aspect-[3/4] bg-sky-100 rounded-lg overflow-hidden">
@@ -600,10 +632,8 @@
 
                     </div>
 
-                    <!-- Bottom Row: 2 Photos (Portrait) -->
                     <div class="flex justify-center items-center gap-3 sm:gap-4 text-left">
                         
-                        <!-- Polaroid 4 (Left - Portrait) -->
                         <div class="w-[100px] min-[400px]:w-[118px] sm:w-[145px] bg-white p-1.5 sm:p-2 pb-2.5 sm:pb-3 rounded-xl shadow-md border border-slate-100 transform rotate-3 hover:rotate-0 transition-transform duration-300 relative group">
                             <div class="absolute -top-2 left-1/2 -translate-x-1/2 w-6 sm:w-7 h-3 bg-sky-200/70 border border-sky-300/40 rounded-xs shadow-xs z-10"></div>
                             <div class="w-full aspect-[3/4] bg-sky-100 rounded-lg overflow-hidden">
@@ -612,7 +642,6 @@
                             <p class="font-cute text-[9px] sm:text-xs text-slate-700 text-center mt-1 sm:mt-1.5 font-medium truncate">Dinner Date 🥂</p>
                         </div>
 
-                        <!-- Polaroid 5 (Right - Portrait) -->
                         <div class="w-[100px] min-[400px]:w-[118px] sm:w-[145px] bg-white p-1.5 sm:p-2 pb-2.5 sm:pb-3 rounded-xl shadow-md border border-slate-100 transform -rotate-2 hover:rotate-0 transition-transform duration-300 relative group">
                             <div class="absolute -top-2 left-1/2 -translate-x-1/2 w-6 sm:w-7 h-3 bg-sky-200/70 border border-sky-300/40 rounded-xs shadow-xs z-10"></div>
                             <div class="w-full aspect-[3/4] bg-sky-100 rounded-lg overflow-hidden">
@@ -624,12 +653,10 @@
                     </div>
                 </div>
 
-                <!-- Custom Quote / Note Box -->
                 <div class="bg-white/60 rounded-2xl p-2.5 border border-white/80 text-xs text-slate-600 font-cute leading-relaxed text-center">
                     Every moment spent with you is my favorite memory!💖
                 </div>
 
-                <!-- Next Page Button -->
                 <div class="pt-1">
                     <button onclick="goToPage(5)" class="inline-flex items-center gap-2 px-6 py-2.5 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs sm:text-sm rounded-full shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 border border-slate-100 cursor-pointer">
                         <span>Next</span>
@@ -645,7 +672,6 @@
         <section id="page-5" class="page-section hidden w-full max-w-lg text-center transition-all duration-500 transform scale-95 opacity-0">
             <div class="backdrop-blur-md bg-white/70 border border-white/80 shadow-2xl shadow-sky-950/10 rounded-3xl p-5 sm:p-7 space-y-4">
                 
-                <!-- Page Title -->
                 <div class="space-y-1">
                     <span class="px-3.5 py-1 text-slate-800 text-xs font-semibold rounded-full border border-[#BDE0FE] inline-block shadow-xs" style="background-color: #C9E4F6;">
                         Catch The Hearts 🩵
@@ -658,16 +684,13 @@
                     </p>
                 </div>
 
-                <!-- Interactive Falling Area Container (Pure White Background) -->
                 <div id="heartGameArea" class="relative w-full h-72 sm:h-80 bg-white rounded-2xl border-2 border-[#C9E4F6] overflow-hidden shadow-inner">
-                    <!-- Guidance watermark hint -->
                     <div id="gameStartHint" class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none select-none opacity-40">
                         <svg class="w-10 h-10 animate-bounce" viewBox="0 0 24 24" fill="#A9D6F5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                         <p class="text-xs font-cute text-slate-600 mt-1">Tap a falling heart!</p>
                     </div>
                 </div>
 
-                <!-- Action Controls -->
                 <div class="flex items-center justify-center gap-3 pt-1">
                     <button onclick="resetHeartGame()" class="inline-flex items-center gap-1.5 px-4 py-2 hover:opacity-90 text-slate-800 font-semibold text-xs rounded-full border border-[#A9D6F5] shadow-xs transition-all cursor-pointer" style="background-color: #C9E4F6;">
                         <span>Replay Hearts 🔄</span>
@@ -683,13 +706,11 @@
         <section id="page-6" class="page-section hidden w-full max-w-md text-center transition-all duration-500 transform scale-95 opacity-0">
             <div class="backdrop-blur-md bg-white/70 border border-white/80 shadow-2xl shadow-sky-950/10 rounded-3xl p-6 sm:p-8 space-y-6 relative overflow-hidden cursor-pointer" onclick="triggerConfetti(event)">
                 
-                <!-- Birthday Boy Illustration (Centered) -->
                 <div class="relative w-48 h-48 sm:w-56 sm:h-56 mx-auto group">
                     <div class="absolute inset-0 bg-gradient-to-tr from-sky-200 to-indigo-100 rounded-full filter blur-md opacity-70 group-hover:opacity-100 transition-opacity"></div>
                     <img src="birthday boy.png" alt="Birthday Boy" class="relative w-full h-full object-contain drop-shadow-xl transform hover:scale-105 transition-transform duration-300">
                 </div>
 
-                <!-- Aesthetic Closing Message -->
                 <div class="bg-white/60 backdrop-blur-xs border border-white/90 rounded-2xl p-5 shadow-inner space-y-3 mx-auto">
                     <p class="font-mistrully text-3xl sm:text-4xl text-[#0b2545] leading-snug">
                         Thank you for bringing<br>so much light into my life
@@ -704,7 +725,6 @@
                     </p>
                 </div>
 
-                <!-- Action Buttons -->
                 <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
                     <button onclick="triggerConfetti(event)" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-600 hover:to-indigo-600 text-white font-semibold text-xs sm:text-sm rounded-full shadow-md hover:shadow-lg transition-all active:scale-95 cursor-pointer">
                         <span>Pop Confetti! 🎉</span>
@@ -724,19 +744,16 @@
         
         <div class="relative w-full max-w-lg bg-[#fcfbf7] paper-texture rounded-2xl shadow-2xl border border-amber-900/10 p-6 sm:p-8 space-y-6 transform scale-90 transition-all duration-300 max-h-[85vh] overflow-y-auto" id="modalContent">
             
-            <!-- Close Button (Top Right "X") -->
             <button onclick="closeLetterModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-200/60 hover:bg-slate-200 text-slate-600 hover:text-slate-800 flex items-center justify-center font-bold text-sm transition-colors cursor-pointer">
                 ✕
             </button>
 
-            <!-- Letter Header -->
             <div class="border-b border-slate-300/80 pb-3">
                 <h3 class="font-cute text-xl sm:text-2xl font-bold text-slate-800">
                     Happy Birthday, Ayang Epan! 🎉
                 </h3>
             </div>
 
-            <!-- Letter Content Text Body -->
             <div class="space-y-4 text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">
                 <p>
                     Dearest Ayang Epan,
@@ -752,7 +769,6 @@
                 </p>
             </div>
 
-            <!-- Letter Sign-off Footer -->
             <div class="pt-4 border-t border-slate-300/60 flex justify-start items-center">
                 <p class="text-sm sm:text-base text-slate-700 font-normal">
                     With love, Nini ❤️
@@ -796,7 +812,7 @@
     </footer>
 
     <!-- Background Happy Birthday Audio (Plays from Page 3 onwards) -->
-    <audio id="bgHappyBirthdayAudio" loop src="https://actions.google.com/sounds/v1/holidays/happy_birthday_box.ogg"></audio>
+    <audio id="bgHappyBirthdayAudio" loop src="Happy Birthday Evan.mp3"></audio>
 
     <!-- Interactive Logic Script -->
     <script>
@@ -804,7 +820,6 @@
         let isEnvelopeOpen = false;
 
         function goToPage(pageNumber) {
-            // Hide current page
             const currentSec = document.getElementById(`page-${currentPage}`);
             const targetSec = document.getElementById(`page-${pageNumber}`);
             
@@ -815,7 +830,6 @@
                     currentSec.classList.add('hidden');
                     targetSec.classList.remove('hidden');
                     
-                    // Trigger entry animation
                     setTimeout(() => {
                         targetSec.classList.remove('opacity-0', 'scale-95');
                         targetSec.classList.add('opacity-100', 'scale-100');
@@ -823,7 +837,6 @@
                 }, 300);
             }
 
-            // Update Navigation Dots
             for (let i = 1; i <= 6; i++) {
                 const dot = document.getElementById(`dot-${i}`);
                 if (dot) {
@@ -837,15 +850,14 @@
 
             currentPage = pageNumber;
 
-            // Handle Happy Birthday background music (starts after 2nd page)
             const bgAudio = document.getElementById('bgHappyBirthdayAudio');
             if (bgAudio) {
-                if (pageNumber > 2) {
-                    // Stop any individual playlist track if playing
+                if (pageNumber > 5) {
                     if (currentPlayingId) {
                         const activeAudio = document.getElementById(`audio-${currentPlayingId}`);
                         if (activeAudio) activeAudio.pause();
                         updatePlayButtonState(currentPlayingId, false);
+                        setTurntablePlaying(false);
                         currentPlayingId = null;
                     }
                     bgAudio.play().catch(() => {});
@@ -854,12 +866,10 @@
                 }
             }
 
-            // Trigger falling hearts setup when navigating to Page 5
             if (pageNumber === 5) {
                 initHeartGame();
             }
 
-            // Trigger confetti burst when entering Page 6
             if (pageNumber === 6) {
                 setTimeout(() => {
                     triggerConfetti();
@@ -872,7 +882,6 @@
             if (event) event.stopPropagation();
             
             if (typeof confetti === 'function') {
-                // Dual side cannons
                 confetti({
                     particleCount: 60,
                     spread: 70,
@@ -904,7 +913,7 @@
 
         // Open full-screen modal (Step 2)
         function openLetterModal(event) {
-            event.stopPropagation(); // Prevents re-triggering envelope click
+            event.stopPropagation();
             const modal = document.getElementById('letterModal');
             const modalContent = document.getElementById('modalContent');
             
@@ -931,7 +940,6 @@
             
             setTimeout(() => {
                 modal.classList.add('invisible');
-                // Reveal the Next button on Page 3 once closed
                 if (page3NextBtn) {
                     page3NextBtn.classList.remove('hidden');
                 }
@@ -941,21 +949,51 @@
             }, 300);
         }
 
-        // Close modal when clicking outside paper
         document.getElementById('letterModal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeLetterModal();
             }
         });
 
-        /* ================= MUSIC PLAYER CONTROLS ================= */
+        /* ================= MUSIC PLAYER & VINYL CONTROLS ================= */
         let currentPlayingId = null;
+
+        const songsMeta = {
+            1: { title: "Teman Hidup — Tulus", cover: "TULUS - Teman Hidup.jpg" },
+            2: { title: "I Don't Want to Miss a Thing — Aerosmith", cover: "Aerosmith - I Don't Want to Miss a Thing.jpg" },
+            3: { title: "I Wanna Grow Old with You — Westlife", cover: "Westlife - I Wanna Grow Old with You.jpg" }
+        };
+
+        function setTurntablePlaying(isPlaying, songId = null) {
+            const vinyl = document.getElementById('vinylRecord');
+            const tonearm = document.getElementById('vinylTonearm');
+            const coverImg = document.getElementById('vinylCoverImg');
+            const nowPlayingLabel = document.getElementById('nowPlayingLabel');
+
+            if (isPlaying) {
+                if (vinyl) vinyl.classList.add('is-playing');
+                if (tonearm) tonearm.classList.add('is-playing');
+                if (songId && songsMeta[songId]) {
+                    if (coverImg) {
+                        coverImg.style.display = 'block';
+                        coverImg.src = songsMeta[songId].cover;
+                    }
+                    if (nowPlayingLabel) {
+                        nowPlayingLabel.innerText = `Now Spinning: ${songsMeta[songId].title}`;
+                    }
+                }
+            } else {
+                if (vinyl) vinyl.classList.remove('is-playing');
+                if (tonearm) tonearm.classList.remove('is-playing');
+                if (nowPlayingLabel) {
+                    nowPlayingLabel.innerText = "Tap a song to spin the needle ✨";
+                }
+            }
+        }
 
         function togglePlay(id) {
             const targetAudio = document.getElementById(`audio-${id}`);
-            const vinyl = document.getElementById('vinylRecord');
             
-            // If another audio is playing, pause it first
             if (currentPlayingId && currentPlayingId !== id) {
                 const prevAudio = document.getElementById(`audio-${currentPlayingId}`);
                 if (prevAudio) {
@@ -968,12 +1006,12 @@
                 targetAudio.play();
                 updatePlayButtonState(id, true);
                 currentPlayingId = id;
-                if (vinyl) vinyl.classList.remove('paused');
+                setTurntablePlaying(true, id);
             } else {
                 targetAudio.pause();
                 updatePlayButtonState(id, false);
                 currentPlayingId = null;
-                if (vinyl) vinyl.classList.add('paused');
+                setTurntablePlaying(false);
             }
         }
 
@@ -1000,12 +1038,11 @@
         }
 
         function onSongEnded(id) {
-            const vinyl = document.getElementById('vinylRecord');
             updatePlayButtonState(id, false);
             const progress = document.getElementById(`progress-${id}`);
             if (progress) progress.style.width = '0%';
             currentPlayingId = null;
-            if (vinyl) vinyl.classList.add('paused');
+            setTurntablePlaying(false);
         }
 
         /* ================= PAGE 5: 10 FALLING HEARTS GAME ================= */
@@ -1035,32 +1072,26 @@
             const gameArea = document.getElementById('heartGameArea');
             if (!gameArea) return;
 
-            // Clear old falling hearts except watermark hint
             const oldHearts = gameArea.querySelectorAll('.falling-heart-btn');
             oldHearts.forEach(h => h.remove());
 
             caughtHearts.clear();
             updateCaughtCounter();
 
-            // Spawn 10 hearts with random positions, speeds, and delays
             reasonsList.forEach((item, index) => {
                 const btn = document.createElement('button');
                 btn.className = `falling-heart-btn absolute rounded-full w-11 h-11 sm:w-12 sm:h-12 flex items-center justify-center bg-white border-2 shadow-md transition-transform duration-200 active:scale-125 cursor-pointer animate-fall`;
                 btn.style.borderColor = item.color;
                 btn.style.backgroundColor = '#ffffff';
                 
-                // Spread horizontally across container (5% to 85%)
                 const leftPos = Math.floor(5 + (index * 8.5) + (Math.random() * 3));
-                // Vary speed duration (4.5s to 7.5s)
                 const duration = (4.5 + Math.random() * 3).toFixed(1);
-                // Stagger delay (0.2s to 3.5s)
                 const delay = (index * 0.35 + Math.random() * 0.4).toFixed(1);
 
                 btn.style.left = `${leftPos}%`;
                 btn.style.animationDuration = `${duration}s`;
                 btn.style.animationDelay = `${delay}s`;
 
-                // Vector SVG Heart strictly filled with specified custom pastel blue color
                 btn.innerHTML = `<svg class="w-6 h-6 sm:w-7 sm:h-7 pointer-events-none drop-shadow-xs" viewBox="0 0 24 24" fill="${item.color}"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`;
                 btn.onclick = (e) => catchHeart(e, item, btn);
 
@@ -1071,15 +1102,12 @@
         function catchHeart(event, item, btnElement) {
             event.stopPropagation();
             
-            // Mark heart caught
             caughtHearts.add(item.id);
             updateCaughtCounter();
 
-            // Visual feedback: dim and pause caught heart
             btnElement.style.animationPlayState = 'paused';
             btnElement.classList.add('opacity-40', 'scale-90');
 
-            // Open Modal
             openReasonModal(item);
         }
 
@@ -1134,7 +1162,6 @@
             }, 300);
         }
 
-        // Close reason modal when clicking backdrop
         document.getElementById('reasonModal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeReasonModal();
